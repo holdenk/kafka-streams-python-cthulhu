@@ -1,0 +1,31 @@
+language: scala
+sudo: required
+dist: precise
+cache:
+  directories:
+    - $HOME/.ivy2
+    - $HOME/.cache/pip
+    - $HOME/.pip-cache
+    - $HOME/.sbt/launchers
+jdk:
+  - oraclejdk8
+scala:
+   - 2.11.8
+sudo: false
+addons:
+  apt:
+    packages:
+      - axel
+before_install:
+  - pip install --user virtualenv
+  - virtualenv myenv
+  - source myenv/bin/activate
+  - export PATH=myenv/bin/:$PATH
+  - pip install --upgrade pip
+  - pip install nose codecov coverage
+  - pip install -r requirements.txt
+  - pip install pep8 pylint sphinx
+notifications:
+  email:
+    recipients:
+      - holden@pigscanfly.ca
