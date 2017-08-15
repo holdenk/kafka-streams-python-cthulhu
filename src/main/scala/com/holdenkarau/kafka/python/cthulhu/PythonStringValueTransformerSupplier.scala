@@ -29,9 +29,9 @@ class PythonStringValueTransformerSupplier(val code: String)
 
 object PythonStringValueTransformerSupplier {
   def apply(filePath: String): PythonStringValueTransformerSupplier = {
-    val userCode = Source.fromFile(filePath).mkString
-    val baseCode = Source.fromFile("kafka-streams-python-cthulhu/main.py").mkString
-    val code = userCode + baseCode
+    val files = List(filePath, "kafka-streams-python-cthulhu/main.py")
+    val code = files.map(path => Source.fromFile(path).mkString)
+      .fold("")((str1, str2) => str1 + str2)
     new PythonStringValueTransformerSupplier(code)
   }
 }
