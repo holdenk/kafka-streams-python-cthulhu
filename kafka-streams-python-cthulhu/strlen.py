@@ -1,5 +1,5 @@
-def transform(input):
+def transform(elem):
     """
     Transforms the supplied input.
     """
-    return str(len(input))
+    return str(len(elem))
