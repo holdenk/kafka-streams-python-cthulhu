@@ -25,7 +25,7 @@ before_install:
   - pip install nose codecov coverage
   - pip install pep8 pylint sphinx
 script:
-  - ./build/sbt scalaStyle
+  - ./build/sbt scalastyle
   - "pep8 --ignore=E402 kafka-streams-python-cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
   - bash <(curl -s https://codecov.io/bash) -cF scala || echo "No Scala report uploaded"
