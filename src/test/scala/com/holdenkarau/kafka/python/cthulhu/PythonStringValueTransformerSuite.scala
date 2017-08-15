@@ -45,9 +45,10 @@ class PythonStringValueTransformerSuite extends FlatSpec with Matchers {
   object Fixtures {
     object Basic {
       def topology(builder: KStreamBuilder) = {
+        val testFuncFile = "kafka-streams-python-cthulhu/strlen.py"
         val stream: KStream[String, String] =
           builder.stream(strings, strings, InputTopic)
-            .transformValues(PythonStringValueTransformerSupplier("kafka-streams-python-cthulhu/strlen.py"))
+            .transformValues(PythonStringValueTransformerSupplier(testFuncFile))
         stream.to(strings, strings, OutputTopic)
       }
       val InputTopic = "input"
