@@ -29,6 +29,7 @@ import sys
 import socket
 import struct
 
+
 def _read_int(stream):
     length = stream.read(4)
     if not length:
@@ -39,6 +40,7 @@ def _read_int(stream):
 def _write_int(value, stream):
     stream.write(struct.pack("!i", value))
 
+
 def main(socket):
     while (True):
         input_length = _read_int(socket)
@@ -48,7 +50,6 @@ def main(socket):
         _write_int(len(resultBytes), socket)
         socket.write(resultBytes)
         socket.flush()
-        
 
 
 if __name__ == '__main__':
