@@ -23,7 +23,6 @@ before_install:
   - export PATH=myenv/bin/:$PATH
   - pip install --upgrade pip
   - pip install nose codecov coverage
-  - pip install -r requirements.txt
   - pip install pep8 pylint sphinx
 script:
   - ./build/build scalaStyle
