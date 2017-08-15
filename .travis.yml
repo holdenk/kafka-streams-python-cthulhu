@@ -24,6 +24,7 @@ before_install:
   - pip install --upgrade pip
   - pip install nose codecov coverage
   - pip install pep8 pylint sphinx
+  - pip install -r requirements.txt
 script:
   - ./build/sbt scalastyle
   - "pep8 --ignore=E402 kafka-streams-python-cthulhu/"

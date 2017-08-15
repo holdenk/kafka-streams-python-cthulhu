@@ -24,6 +24,7 @@ javaOptions ++= Seq("-Xms1G", "-Xmx3G", "-XX:MaxPermSize=2048M", "-XX:+CMSClassU
 
 
 libraryDependencies ++= Seq(
+  "org.apache.arrow" % "arrow-vector" % "0.6.0",
   "org.apache.kafka" %% "kafka" % "0.11.0.0",
   "org.apache.kafka" % "kafka-streams" % "0.11.0.0",
   "org.apache.kafka" % "kafka-clients" % "0.11.0.0",
