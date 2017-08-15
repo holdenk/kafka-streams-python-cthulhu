@@ -33,7 +33,8 @@ import scala.collection.JavaConverters._
  * A basic class to allow you to more easily implement a transformer in Python.
  * This is a WIP POC and should not be used in production environments.
  */
-class PythonValueTransformer(val pythonCode: String) extends ValueTransformer[String, String] {
+class PythonValueTransformer(val pythonCode: String)
+    extends ValueTransformer[String, String] {
   private var pythonProcess: Process = _
   private var temp: File = _
   var serverSocket: ServerSocket = _
@@ -42,7 +43,8 @@ class PythonValueTransformer(val pythonCode: String) extends ValueTransformer[St
   var dataIn: DataInputStream = _
 
   override def init(context: ProcessorContext): Unit = {
-    serverSocket = new ServerSocket(0, 1, InetAddress.getByAddress(Array(127, 0, 0, 1)))
+    serverSocket =
+      new ServerSocket(0, 1, InetAddress.getByAddress(Array(127, 0, 0, 1)))
     val builder =
       try {
         temp = File.createTempFile("pyTransformer", ".py");
@@ -53,14 +55,16 @@ class PythonValueTransformer(val pythonCode: String) extends ValueTransformer[St
         new ProcessBuilder("python", pythonCodePath);
       } catch {
         case e: Exception =>
-          // If we can't write to a temporary file use -c to execute the code as a command.
+          // If we can't write to a temporary file use -c to execute
+          // the code as a command.
           new ProcessBuilder("python", "-c", pythonCode);
       }
     val workerEnv = builder.environment()
     workerEnv.put("PYTHONUNBUFFERED", "YES")
     pythonProcess = builder.start();
     // Tell the worker our port
-    val out = new  OutputStreamWriter(pythonProcess.getOutputStream, StandardCharsets.UTF_8)
+    val out =
+      new OutputStreamWriter(pythonProcess.getOutputStream, StandardCharsets.UTF_8)
     out.write(serverSocket.getLocalPort + "\n")
     out.flush()
     // Wait for it to connect to our socket
@@ -105,7 +109,7 @@ class PythonValueTransformer(val pythonCode: String) extends ValueTransformer[St
       pythonProcess.destroy();
     } catch {
       case e: Exception =>
-        System.err.println("Failed to shutdown python transformer process" + e.getMessage())
+        System.err.println("Failed to shutdown python process" + e.getMessage())
     }
     try {
       temp.delete();

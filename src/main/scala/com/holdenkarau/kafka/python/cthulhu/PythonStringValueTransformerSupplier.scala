@@ -20,7 +20,8 @@ import scala.io.Source
 
 import org.apache.kafka.streams.kstream.{ValueTransformer, ValueTransformerSupplier}
 
-class PythonStringValueTransformerSupplier(val code: String) extends ValueTransformerSupplier[String, String] {
+class PythonStringValueTransformerSupplier(val code: String)
+    extends ValueTransformerSupplier[String, String] {
   override def get(): ValueTransformer[String, String] = {
     new PythonValueTransformer(code)
   }
