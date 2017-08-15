@@ -99,11 +99,13 @@ trait PythonArrowValueTransformer[
       invec.setInitialCapacity(1)
       invec.allocateNew()
     }
-    invec.getMutator.setSafe(1, value)
+    invec.getMutator.setSafe(0, value)
+    val buffer = invec.getBuffers(false).flatten
+
     // Sockets may still summon the great old ones, in the future shared memory
     // may summon a different kind of evil.
-    dataOut.writeInt(value.getBytes.size)
-    dataOut.write(value.getBytes)
+    dataOut.writeInt(buffer.size)
+    dataOut.write(buffer.getBytes)
     dataOut.flush()
     val resultSize = dataIn.readInt()
     val result = new Array[Byte](resultSize)
