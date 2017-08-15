@@ -24,7 +24,6 @@ the great old ones.
 In case this isn't clear, don't use this in production, yet. Unless you
 really really like lovecraft - in which case support contracts are available.
 """
-import os
 import sys
 import socket
 import struct
