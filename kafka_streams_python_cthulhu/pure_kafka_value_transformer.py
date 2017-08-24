@@ -53,7 +53,7 @@ class PureKafkaValueTransformer(object):
                 failure_producer_kwargs = copy.deepcopy(producer_kwargs)
                 failure_producer_kwargs['delivery_reports'] = False
                 failure_producer = client.topics[failure_topic].get_producer(
-                    **producer_kwargs) 
+                    **producer_kwargs)
 
                 while True:
                     print("Checking for message")
@@ -132,11 +132,11 @@ class PureKafkaValueTransformer(object):
         map(lambda p: p.start(), self._processes)
         print("Started sub processes!")
 
-        def stopAll(self):
-            map(lambda x: x.terminate())
+    def stop_all(self):
+        map(lambda x: x.terminate())
 
-        def running(self):
-            """
-            Return the number of processes still running.
-            """
-            size(filter(lambda x: x.is_alive(), self._processes))
+    def running(self):
+        """
+        Return the number of processes still running.
+        """
+        size(filter(lambda x: x.is_alive(), self._processes))

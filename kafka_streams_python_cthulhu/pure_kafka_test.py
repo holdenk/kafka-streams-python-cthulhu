@@ -25,6 +25,7 @@ class BasicPureKafkaTest(unittest2.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        cls._transformer.stop_all()
         stop_cluster(cls._kafka)
 
     def test_simple_strlen(self):
@@ -40,7 +41,7 @@ class BasicPureKafkaTest(unittest2.TestCase):
                 print("Fetched message {0} {1}".format(message, message.value))
                 self.assertEqual(message.value, "6")
                 break
+        self.assertEqual(self._transformer.running(), 2)
 
-        
 if __name__ == '__main__':
   unittest2.main()
