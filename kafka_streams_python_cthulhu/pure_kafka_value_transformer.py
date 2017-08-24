@@ -133,7 +133,7 @@ class PureKafkaValueTransformer(object):
         print("Started sub processes!")
 
     def stop_all(self):
-        map(lambda x: x.terminate())
+        map(lambda x: x.terminate(), self._processes)
 
     def running(self):
         """
