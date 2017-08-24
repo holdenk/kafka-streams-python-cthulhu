@@ -139,4 +139,4 @@ class PureKafkaValueTransformer(object):
         """
         Return the number of processes still running.
         """
-        size(filter(lambda x: x.is_alive(), self._processes))
+        return len(filter(lambda x: x.is_alive(), self._processes))
