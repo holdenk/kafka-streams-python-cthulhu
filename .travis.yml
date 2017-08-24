@@ -29,9 +29,9 @@ script:
   - ./build/sbt scalastyle
   - "pep8 --ignore=E402 kafka_streams_python_cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
-  - python setup.py test
-on_success:
   - bash <(curl -s https://codecov.io/bash) -cF scala || echo "No Scala report uploaded"
+  - python setup.py test
+  - bash <(curl -s https://codecov.io/bash) -cF python || echo "No Python report uploaded"
 notifications:
   email:
     recipients:
