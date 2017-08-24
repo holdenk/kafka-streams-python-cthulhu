@@ -27,7 +27,7 @@ before_install:
   - pip install pep8 pylint sphinx tox testinstances
 script:
   - ./build/sbt scalastyle
-  - "pep8 --ignore=E402 kafka-streams-python-cthulhu/"
+  - "pep8 --ignore=E402 kafka_streams_python_cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
   - python setup.py test
 on_success:

@@ -29,7 +29,7 @@ class PythonStringValueTransformerSupplier(val code: String)
 
 object PythonStringValueTransformerSupplier {
   def apply(filePath: String): PythonStringValueTransformerSupplier = {
-    val files = List(filePath, "kafka-streams-python-cthulhu/main.py")
+    val files = List(filePath, "kafka_streams_python_cthulhu/main.py")
     val code = files.map(path => Source.fromFile(path).mkString)
       .fold("")((str1, str2) => str1 + str2)
     new PythonStringValueTransformerSupplier(code)
