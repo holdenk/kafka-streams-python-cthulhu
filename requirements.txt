@@ -1,3 +1,7 @@
 arrow==0.6.0
 future
-multiprocessing
+pykafka
+nose
+coverage
+unittest2
+gevent
