@@ -30,7 +30,7 @@ script:
   - "pep8 --ignore=E402 kafka_streams_python_cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
   - bash <(curl -s https://codecov.io/bash) -cF scala || echo "No Scala report uploaded"
-  - python setup.py test
+  - nosetests --logging-level=INFO --detailed-errors --verbosity=2 --with-coverage --cover-html-dir=./htmlcov --cover-package=kafka_streams_python_cthulhu --with-doctest --doctest-options=+ELLIPSIS
   - bash <(curl -s https://codecov.io/bash) -cF python || echo "No Python report uploaded"
 notifications:
   email:

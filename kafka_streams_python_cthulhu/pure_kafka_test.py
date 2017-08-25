@@ -13,26 +13,21 @@ class BasicPureKafkaTest(unittest2.TestCase):
         cls._logger = logging.getLogger(__name__)
         cls._logger.setLevel(logging.DEBUG)
         cls._kafka = get_cluster()
+        topics=["in", "out", "fail"]
+        list(map(lambda topic: cls._kafka.create_topic(topic, 3, 2), topics))
         cls._connection = cls._kafka.connection
         cls._client = KafkaClient(cls._kafka.brokers)
-        topics=["in", "out", "fail"]
-        map(lambda topic: cls._kafka.create_topic(topic, 3, 2), topics)
-        wait_count = 2
-        attempts = 0
-        cls._client.update_cluster()
-        while attempts < wait_count:
-            if "in" not in cls._client.topics:
-                cls._logger.debug("in not found in topics, waiting")
-                time.sleep(1)
-                cls._client.update_cluster()
-            else:
-                break
-            attempts = attempts + 1
+        if "in" not in cls._client.topics:
+            cls._logger.debug("in not found in topics, waiting")
+            time.sleep(1)
+            cls._client.update_cluster()
 
         if "in" not in cls._client.topics:
-            raise Exception(
-                "Client topics {0} do not include required input topic"
-                .format(cls._client.topics))
+            msg = ("Client topics {0} do not include required input topic"
+                   .format(cls._client.topics))
+            cls._logger.error(msg)
+            raise Exception(msg)
+
         cls._transformer = PureKafkaValueTransformer(
             brokers=cls._kafka.brokers,
             consumer_kwargs={'zookeeper_connect': cls._kafka.zookeeper},
