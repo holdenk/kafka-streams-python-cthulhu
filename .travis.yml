@@ -26,6 +26,7 @@ before_install:
   - pip install --upgrade coverage>=4.2.0
   - pip install nose codecov unittest2
   - pip install -r requirements.txt
+  - pip install pykafka
   - pip install pep8 pylint sphinx tox testinstances
 script:
   - ./build/sbt scalastyle
