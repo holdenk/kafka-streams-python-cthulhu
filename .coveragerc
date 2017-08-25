@@ -1,0 +1,3 @@
+# Coverage file for our trixie pandas
+[run]
+concurrency=multiprocessing

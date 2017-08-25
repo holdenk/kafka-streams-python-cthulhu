@@ -7,6 +7,7 @@ cache:
     - $HOME/.cache/pip
     - $HOME/.pip-cache
     - $HOME/.sbt/launchers
+    - /tmp/kafka-bin
 jdk:
   - oraclejdk8
 scala:
@@ -22,15 +23,26 @@ before_install:
   - source myenv/bin/activate
   - export PATH=myenv/bin/:$PATH
   - pip install --upgrade pip
-  - pip install nose codecov coverage
-  - pip install pep8 pylint sphinx
+  - pip install --upgrade coverage>=4.2.0
+  - pip install nose codecov unittest2
+  - pip install -r requirements.txt
+  - pip install pykafka
+  - pip install pep8 pylint sphinx tox testinstances
 script:
   - ./build/sbt scalastyle
-  - "pep8 --ignore=E402 kafka-streams-python-cthulhu/"
+  - "pep8 --ignore=E402 kafka_streams_python_cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
-on_success:
   - bash <(curl -s https://codecov.io/bash) -cF scala || echo "No Scala report uploaded"
+  - cat .coveragerc
+  - nosetests --logging-level=INFO --detailed-errors --verbosity=2 --with-coverage --cover-html-dir=./htmlcov --cover-package=kafka_streams_python_cthulhu --with-doctest --doctest-options=+ELLIPSIS
+  - bash <(curl -s https://codecov.io/bash) -cF python || echo "No Python report uploaded"
 notifications:
   email:
     recipients:
       - holden@pigscanfly.ca
+addons:
+  apt:
+    packages:
+    - libev-dev
+    - libsnappy-dev
+    - zlib1g-dev  # for librdkafka

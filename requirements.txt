@@ -1,0 +1,7 @@
+arrow==0.6.0
+future
+pykafka
+nose
+coverage>4.0.0
+unittest2
+gevent
