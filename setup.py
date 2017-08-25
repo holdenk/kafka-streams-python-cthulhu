@@ -36,7 +36,7 @@ setup(
     install_requires=INSTALL_REQS,
     tests_requires=[
         'nose==1.3.7',
-        'coverage>4.0.0',
+        'coverage>4.2.0',
         'unittest2>=1.0.0',
         'testinstances',
     ],

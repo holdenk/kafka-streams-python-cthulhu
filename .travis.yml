@@ -23,7 +23,7 @@ before_install:
   - source myenv/bin/activate
   - export PATH=myenv/bin/:$PATH
   - pip install --upgrade pip
-  - pip install --upgrade coverage
+  - pip install --upgrade coverage>=4.2.0
   - pip install nose codecov unittest2
   - pip install pep8 pylint sphinx tox testinstances
 script:
@@ -31,6 +31,7 @@ script:
   - "pep8 --ignore=E402 kafka_streams_python_cthulhu/"
   - ./build/sbt clean coverage compile test coverageReport
   - bash <(curl -s https://codecov.io/bash) -cF scala || echo "No Scala report uploaded"
+  - cat .coveragerc
   - nosetests --logging-level=INFO --detailed-errors --verbosity=2 --with-coverage --cover-html-dir=./htmlcov --cover-package=kafka_streams_python_cthulhu --with-doctest --doctest-options=+ELLIPSIS
   - bash <(curl -s https://codecov.io/bash) -cF python || echo "No Python report uploaded"
 notifications:
