@@ -46,6 +46,7 @@ if 'IS_TEST' not in os.environ and "JARS" not in os.environ:
         jar = [jar_path for jar_path in jars if os.path.exists(jar_path)][0]
     except IndexError:
         print("Failed to find jars. Looked at paths %s." % jars)
+        print("boople")
     original_classpath = os.environ.get("CLASSPATH", "")
     if original_classpath.find(jar) != -1:
         classpath = "{0}:{1}".format(jar, original_classpath)
