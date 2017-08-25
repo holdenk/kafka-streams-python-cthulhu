@@ -1,10 +1,28 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 import time
 import logging
 from pykafka import KafkaClient
 from pykafka.test.utils import get_cluster, stop_cluster
-from kafka_streams_python_cthulhu.strlen import transform
-from kafka_streams_python_cthulhu.pure_kafka_value_transformer import PureKafkaValueTransformer
+from .strlen import transform
+from .pure_kafka_value_transformer import PureKafkaValueTransformer
 import unittest2
+
 
 class BasicPureKafkaTest(unittest2.TestCase):
 
@@ -13,7 +31,7 @@ class BasicPureKafkaTest(unittest2.TestCase):
         cls._logger = logging.getLogger(__name__)
         cls._logger.setLevel(logging.DEBUG)
         cls._kafka = get_cluster()
-        topics=["in", "out", "fail"]
+        topics = ["in", "out", "fail"]
         list(map(lambda topic: cls._kafka.create_topic(topic, 3, 2), topics))
         cls._connection = cls._kafka.connection
         cls._client = KafkaClient(cls._kafka.brokers)
@@ -59,4 +77,4 @@ class BasicPureKafkaTest(unittest2.TestCase):
         self.assertEqual(self._transformer.running(), 2)
 
 if __name__ == '__main__':
-  unittest2.main()
+    unittest2.main()

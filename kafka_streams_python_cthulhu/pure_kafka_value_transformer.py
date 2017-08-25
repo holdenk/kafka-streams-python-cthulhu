@@ -23,6 +23,7 @@ from pykafka import KafkaClient
 import time
 import logging
 
+
 class PureKafkaValueTransformer(object):
 
     def __init__(self,
@@ -35,6 +36,7 @@ class PureKafkaValueTransformer(object):
                  backoff=0.01,
                  failure_topic=None,
                  num_processes=2):
+
         def _worker_loop():
             self._logger = logging.getLogger(__name__)
             while True:
@@ -42,7 +44,8 @@ class PureKafkaValueTransformer(object):
                     _process_stream()
                 except Exception as e:
                     self._logger.warn("Uncaught {0} in main loop, reconnecting"
-                                .format(repr(e)))
+                                      .format(repr(e)))
+
         def _process_msgs(producer, consumer, failure_producer):
             did_work = False
             # Non blocking fetch and process the error message
@@ -61,12 +64,13 @@ class PureKafkaValueTransformer(object):
                             failure_producer.produce(error_msg)
                         except Exception as e2:
                             self._logger.warn("{0} during error reporting"
-                                         .format(repr(e2)))
+                                              .format(repr(e2)))
             # If delivery reports are enabled look for failures
             if producer_kwargs['delivery_reports']:
                 try:
                     msg, exc = producer.get_delivery_report(block=False)
-                    # Processing a delivery report (success or failure) counts as work.
+                    # Processing a delivery report (success or failure)
+                    # counts as work.
                     did_work = True
                 except Queue.Empty:
                     exc = None
@@ -79,10 +83,11 @@ class PureKafkaValueTransformer(object):
                             failure_producer.produce(error_msg)
                         except Exception as e2:
                             self._logger.warn("{0} during error reporting"
-                                         .format(repr(e2)))
+                                              .format(repr(e2)))
             # If we didn't have a message wait a bit
             if not did_work:
-                self._logger.debug("No msg received, waiting {0}".format(backoff))
+                self._logger.debug(
+                    "No msg received, waiting {0}".format(backoff))
                 time.sleep(backoff)
 
         def _process_stream():
@@ -117,8 +122,7 @@ class PureKafkaValueTransformer(object):
             raise Exception(
                 "Output topic {0} not found in available topics {1}"
                 .format(out_topic, client.topics))
-        if (failure_topic is not None and
-            failure_topic not in client.topics):
+        if (failure_topic is not None and failure_topic not in client.topics):
             raise Exception(
                 "Failure topic {0} not found in available topics {1}"
                 .format(failure_topic, client.topics))
@@ -126,7 +130,7 @@ class PureKafkaValueTransformer(object):
         # Set some default values on consumer/producer.
         if 'consumer_group' not in consumer_kwargs:
             logging.debug("consumer_group was not specified in consumer_kwargs"
-                         "setting to a hash of the provided transformation")
+                          "setting to a hash of the provided transformation")
             consumer_kwargs['consumer_group'] = str(hash(transform_function))
 
         if 'zookeeper_connect' not in consumer_kwargs:
