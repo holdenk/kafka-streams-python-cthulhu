@@ -5,3 +5,4 @@ nose
 coverage>4.0.0
 unittest2
 gevent
+pyspark

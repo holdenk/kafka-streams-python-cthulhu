@@ -6,6 +6,7 @@ JAR_FILE = 'cthulhu-' + VERSION + '.jar'
 
 if sys.version_info[0] < 3:
     INSTALL_REQS = [
+        'pyspark'
         'future',
         'pykafka',
         'multiprocessing',
@@ -13,6 +14,7 @@ if sys.version_info[0] < 3:
     ]
 else:
     INSTALL_REQS = [
+        'pyspark',
         'future',
         'pykafka',
         'gevent',
