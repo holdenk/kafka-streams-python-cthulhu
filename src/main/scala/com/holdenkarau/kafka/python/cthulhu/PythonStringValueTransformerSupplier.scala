@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.holdenkarau.kafka.python.cthulhu;
-
-import scala.io.Source
+package com.holdenkarau.kafka.python.cthulhu
 
 import org.apache.kafka.streams.kstream.{ValueTransformer, ValueTransformerSupplier}
 
@@ -27,11 +25,13 @@ class PythonStringValueTransformerSupplier(val code: String)
   }
 }
 
-object PythonStringValueTransformerSupplier {
-  def apply(filePath: String): PythonStringValueTransformerSupplier = {
-    val files = List(filePath, "kafka_streams_python_cthulhu/main.py")
-    val code = files.map(path => Source.fromFile(path).mkString)
-      .fold("")((str1, str2) => str1 + str2)
+object PythonStringValueTransformerSupplier
+    extends PythonTransformerSupplierCompanion[PythonStringValueTransformerSupplier] {
+  override val supportingFiles = List(
+    "kafka_streams_python_cthulhu/mini_interop_utils.py",
+    "kafka_streams_python_cthulhu/main.py")
+
+  override def makeForCode(code: String): PythonStringValueTransformerSupplier = {
     new PythonStringValueTransformerSupplier(code)
   }
 }

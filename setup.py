@@ -11,6 +11,7 @@ if sys.version_info[0] < 3:
         'pykafka',
         'multiprocessing',
         'gevent',
+        'pyjinius',
     ]
 else:
     INSTALL_REQS = [
@@ -18,6 +19,7 @@ else:
         'future',
         'pykafka',
         'gevent',
+        'pyjinius',
     ]
 
 setup(

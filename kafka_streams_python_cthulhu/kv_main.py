@@ -16,7 +16,7 @@
 #
 
 """
-A basic wrapper for transformers. Right now this is pure string->string
+A basic wrapper for transformers. Right now this is pure [bytes, bytes] -> [bytes, bytes].
 which may summon cthulhu, may he eat your soul last, and in the future
 should be replaced with an Arrow based solution less likely to disturb
 the great old ones.
@@ -28,16 +28,21 @@ import sys
 import socket
 import struct
 #from mini_interop_utils import *
+#from mini_interop_utils import *
 # We stitch this together with mini_interop_utils in scala... I'm sorry
+
 
 def main(socket):
     while (True):
-        input_length = _read_int(socket)
-        data = socket.read(input_length)
-        result = transform(data)
-        resultBytes = result.encode()
-        _write_int(len(resultBytes), socket)
-        socket.write(resultBytes)
+        input_key_length = _read_int(socket)
+        key = socket.read(input_key_length)
+        input_value_length = _read_int(socket)
+        value = socket.read(input_value)
+        results = list(transform(data))
+        _write_int(len(results), socket)
+        for result in results:
+            _write_int(len(result), socket)
+            socket.write(result)
         socket.flush()
 
 
